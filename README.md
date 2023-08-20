@@ -1,7 +1,7 @@
 # pes_asic_class
 Repo for the lab assignments for VLSI Physical Design for ASICs Special topic, August 2023.
 
-Course Instructor - ![Kunal Ghosh](https://github.com/kunalg123/)
+Course Instructor - [Kunal Ghosh](https://github.com/kunalg123/)
 
 Link to course notes: https://github.com/skudlur/VLSI-PD
 
@@ -17,11 +17,11 @@ Link to course notes: https://github.com/skudlur/VLSI-PD
 
 ## Installed tools for the course:
 
-1. RISC-V GCC GNU Toolchain - Compiler collection to compile languages like C, C++ to RISC-V assembly. I have built the compiler from ![source](https://github.com/riscv-collab/riscv-gnu-toolchain). The shell script also builds it from source because the one that is specified in the course is only for Ubuntu and other Debian systems. I have compiled both 64 and 32-bit compilers (multilib) as well as Linux compilers to experiment further but this is not necessary, just 64-bit should suffice (The shell installer will only install 64-bit compilers).
+1. RISC-V GCC GNU Toolchain - Compiler collection to compile languages like C, C++ to RISC-V assembly. I have built the compiler from [source](https://github.com/riscv-collab/riscv-gnu-toolchain). The shell script also builds it from source because the one that is specified in the course is only for Ubuntu and other Debian systems. I have compiled both 64 and 32-bit compilers (multilib) as well as Linux compilers to experiment further but this is not necessary, just 64-bit should suffice (The shell installer will only install 64-bit compilers).
 
-2. RISC-V ISA Simulator (SPIKE) - Again built it from ![source](https://github.com/riscv-software-src/riscv-isa-sim). This simulator is used to run RISC-V executables that cannot be run on our host machines. (yet ;))
+2. RISC-V ISA Simulator (SPIKE) - Again built it from [source](https://github.com/riscv-software-src/riscv-isa-sim). This simulator is used to run RISC-V executables that cannot be run on our host machines. (yet ;))
 
-3. RISC-V Proxy Kernel (pk) - Built it from the ![source](https://github.com/riscv-software-src/riscv-pk). This hosts statically-linked RISC-V ELF binaries. This allows the system calls from the RISC-V binaries to be translated to host target specific syscalls to execute them as intended.
+3. RISC-V Proxy Kernel (pk) - Built it from the [source](https://github.com/riscv-software-src/riscv-pk). This hosts statically-linked RISC-V ELF binaries. This allows the system calls from the RISC-V binaries to be translated to host target specific syscalls to execute them as intended.
 
 ## Installation guide for Fedora users
 

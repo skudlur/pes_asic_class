@@ -1,6 +1,8 @@
 # pes_asic_class
 Repo for the lab assignments for ASIC Special topic
 
+Link to course notes: https://github.com/skudlur/VLSI-PD
+
 # System Information
 
 - Laptop - ThinkPad T470

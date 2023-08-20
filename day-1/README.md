@@ -12,7 +12,7 @@ gcc sum-1ton.c -o x86
 
 - The above commands will run on an x86 system and print out an output.
 
-![x86](/assets/x86_sum1ton "x86")
+![x86](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/x86_sum1ton.png "x86")
 
 - To get RISC-V assembly, we use the RISC-V GCC compiler to compile the program.
 
@@ -23,7 +23,7 @@ riscv64-unknown-elf-gcc sum-1ton.c -o rv
 
 - The above command to execute the compiled binary will not run as it ran previously (for GCC). This is because the assembly produced is only for RISC-V processors.
 
-![GCC](/assets/gcc.png "GCC")
+![GCC](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/gcc.png "GCC")
 
 - We can use spike to invoke the executable.
 
@@ -31,4 +31,4 @@ riscv64-unknown-elf-gcc sum-1ton.c -o rv
 spike $(which pk) rv
 ```
 
-![RV](/assets/rv_sum1ton "rv")
+![RV](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/rv_sum1ton.png "rv")

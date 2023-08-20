@@ -54,3 +54,27 @@ riscv64-unknown-elf-objdump -d rv >> out.txt
 ![rv-out](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/disasm_txt.png)
 
 - The disassembly will be stored in `out.txt`.
+
+## Running Spike to debug the disassembly
+
+- Run the following commands to run spike in debug mode
+
+```bash
+spike $(which pk) rv
+spike -d $(which pk) rv
+```
+
+![spike](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/spike-debug.png)
+
+- This will enable interactive debug mode in spike, you can access the register values, jump PC values and get next assembly in the instruction memory/pipeline.
+
+- To check execution log, run the following command
+
+```bash
+spike -l --log=exec.txt $(which pk) rv
+```
+
+![spike-exec](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/spike-exec.png)
+
+- This will print the execution log in the `exec.txt` file.
+

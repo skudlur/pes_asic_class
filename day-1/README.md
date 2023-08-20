@@ -41,11 +41,16 @@ spike $(which pk) rv
 riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march-rv64id -o rv sum-1ton.c
 riscv64-unknown-elf-objdump -d rv | less
 ```
+![rv-gcc](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/gcc-march.png)
+![rv-objd](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/gcc-objdump.png)
+![rv-disasm](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/disasm.png)
 
 - This will give the disassembled code from the C program (sum-1ton.c). To put the disassembly in a file, run the following command
 
 ```bash
 riscv64-unknown-elf-objdump -d rv >> out.txt
 ```
+
+![rv-out](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/disasm_txt.png)
 
 - The disassembly will be stored in `out.txt`.

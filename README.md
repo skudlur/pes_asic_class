@@ -17,5 +17,6 @@ Repo for the lab assignments for ASIC Special topic
 3. RISC-V GNU toolchain takes a long time to build
     - It takes a while to build it, so let the system take its time and make sure it is charged.
 4. If you face any issues like 'not found' just make sure you have included the GCC, pk and spike dirs in PATH in your `~/.bashrc` or `~/.zshrc`.
-![zshrc]( "zshrc")
+   
+![zshrc](https://github.com/skudlur/pes_asic_class/blob/main/assets/zshrc.png "zshrc")
  

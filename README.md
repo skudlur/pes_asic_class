@@ -1,6 +1,8 @@
 # pes_asic_class
 Repo for the lab assignments for VLSI Physical Design for ASICs Special topic, August 2023.
 
+Course Instructor - ![Kunal Ghosh](https://github.com/kunalg123/)
+
 Link to course notes: https://github.com/skudlur/VLSI-PD
 
 ## System Information
@@ -32,9 +34,24 @@ chmod +x run_fedora.sh
 
 # Lab assignments
 
-## Day - 1 Lab assignments.
+## Day - 1 Lab assignments - Introduction to RISC-V ISA and GNU Compiler Toolchain
 
-- All the code can be found in the respective day directories.
+### RISC-V
+
+Reduced Instruction Set Computer - Five is an open instruction set architecture that is simple and extensively customizable to use to build a processor. It was developed by people at UC Berkeley to teach people how to build a processor. It now has the potential to be the go-to architecture for almost any use-case.
+
+### Different extensions of RISC-V
+
+- `I` -> Integer Extension (consists of instructions like `ADD`, `LW`, `SB` etc.). This extension is considered as the base ISA (minimum extension)
+- `M` -> Multiplication and division Extension (`MUL`, `DIV` etc.)
+- `C` -> Compressed Extension
+- `A` -> Atomic Extension
+- `F` -> Single Precision Floating point Extension
+- `D` -> Double Precision Floating point Extension
+- `V` -> Vector Extension
+- `G` -> General collection of Extensions (IMACF)
+  
+All the code can be found in the respective day directories.
 
 ### Using GCC and RISC-V GCC to compile a C-program
 
@@ -80,6 +97,11 @@ riscv64-unknown-elf-objdump -d rv | less
 ![rv-gcc](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/gcc-march.png)
 ![rv-objd](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/gcc-objdump.png)
 ![rv-disasm](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/disasm.png)
+
+- `-O<number>` -> Optimization levels for the compiler. Ranges from 0 (lowest optimization) to 3 (highest optimization).
+- `-mabi` -> Denotes the Application Binary Interface (ABI) to be used for the compilation of the program.
+- `-march` -> Denotes the extensions and machine instruction length to be generated.
+- `-o` -> Denotes custom name for the object file.
 
 - This will give the disassembled code from the C program (sum-1ton.c). To put the disassembly in a file, run the following command
 

@@ -201,6 +201,11 @@ RISC-V instructions have a common structure with several fields that serve diffe
 
 ![abi-reg](https://web.eecs.utk.edu/~smarz1/courses/ece356/notes/risc/imgs/regfile.png)
 
+### Simulate a C program using ABI function call (using registers) and execute
+
+![dodo](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/Screenshot%20from%202023-08-21%2022-57-34.png)
+![dodo1](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/Screenshot%20from%202023-08-21%2022-56-54.png)
+
 ## Most common issues with RISC-V toolchain on Fedora
 
 1. pk not found error

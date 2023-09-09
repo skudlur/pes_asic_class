@@ -206,6 +206,62 @@ RISC-V instructions have a common structure with several fields that serve diffe
 ![dodo](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/Screenshot%20from%202023-08-21%2022-57-34.png)
 ![dodo1](https://github.com/skudlur/pes_asic_class/blob/main/day-1/assets/Screenshot%20from%202023-08-21%2022-56-54.png)
 
+# RTL design using Verilog with SKY130 Technology
+
+### Day - 1: Introducton to Verilog RTL Design and Synthesis
+
+```bash
+sudo dnf install gtkwave iverilog yosys
+```
+
+- Yosys can be installed using dnf itself.
+
+#### Yosys check post installation
+![yosys](https://github.com/skudlur/pes_asic_class/blob/main/assets/yosys.png "yosys")
+
+- **Yosys**: Yosys is an open-source synthesis tool that converts RTL (Register Transfer Level) descriptions written in HDL (Hardware Description Language) into optimized gate-level netlists for digital circuit designs. -Inputs to yosys : liberty file(.lib) and design file(HDL) -Output : synthesized netlist mapped with the provided technology library
+
+- **iverilog**: Icarus verilog is an open-source Verilog simulation and synthesis tool that allows designers to verify their digital designs using simulation and generate netlists for synthesis. -Inputs to iverilog : testbench and design files -output : VCD (Value change dump) file that stores data related to simulation
+
+- **GTKWave**: GTKWave is an open-source waveform viewer that provides graphical visualization of simulation results produced by digital design simulation tools, aiding in the debugging and analysis of digital circuits. -Inputs : VCD FIle -output : Simulation waveform
+
+#### Files
+
+- The liberty file required for synthesis is `sky130_fd_sc_hd__tt_025C_1v80.lib` present under `rtl` Folder
+- The design Files can be found under `verilog_files` directory inside `rtl`.
+
+#### Synthesis and Simulation
+
+```bash
+cd /path/to/file/location
+iverilog mux.v mux_tb.v -o mux.out
+./mux.out
+gtkwave mux_tb.vcd
+```
+
+#### Waveforms
+![gtkwave](https://github.com/skudlur/pes_asic_class/blob/main/assets/wfm.png "gtkwave")
+
+### Synthesis (Interactive flow)
+
+- Open yosys where the verilog files are present using the command - `yosys`
+- Specify the technology library to be used - `read_liberty -lib <PATH_TO_.lib_FILE_LOCATION>/sky130_fd_sc_hd__tt_025C_1v80.lib`
+- Specify all the verilog files to be synthesized - `read_verilog mux.v`
+- Since some designs have submodules, it is necessary to mention the topmodule name (mux in my case) - `synth -top mux`
+- Generate synthesized netlist (ABC links the expression declared in design file with cells present in library) - `abc -liberty <Path_to_.lib_File>/sky130_fd_sc_hd__tt_025C_1v80.lib`
+- To view the graphical representation of sytnthesized netlist - `show`
+- Write the generated netlist into a verilog file - `write_verilog mux_mapped.v` or `write_verilog -noattr mux_mapped.v`
+    - noattr helps in compressing the mapped netlist by removing unwanted information
+
+#### yosys stats
+![yosys_stats](https://github.com/skudlur/pes_asic_class/blob/main/assets/ystats.png "yosys stats")
+
+#### abc stats
+![abc_stats](https://github.com/skudlur/pes_asic_class/blob/main/assets/abcstats.png "abc stats")
+
+#### Netlist
+![netlist_stats](https://github.com/skudlur/pes_asic_class/blob/main/assets/netlist.png "netlist")
+
 ## Most common issues with RISC-V toolchain on Fedora
 
 1. pk not found error

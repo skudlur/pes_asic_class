@@ -376,6 +376,29 @@ To Check the functionality, We refer to this waveform
 	- Retiming
 	- Sequential logic cloning
 
+### Day - 4: GLS, Synthesis solution mismatch
+
+## Gate Level Simulation(GLS)
+
+- used for post-synthesis verification to ensure functionality and timing requirements
+- input : testbench ,synthesized netlist of a deisgn, gate level verilog models (since design now is synthesised one , it has library gate definitions in it.so we have to pass those verilog models too)
+- sometimes there is a mismatch in simulation results for post-synthesis netlist that's called synthesis simulation mismatch
+
+### Synthesis Simulation Mismatch
+
+Reasons : 
+- **Missing Sensitivity list**
+- **Blocking(sequential execution) vs Non Blocking assignments(parallel Execution)**
+- **Non standard verilog codeing**
+
+### GLS Lab
+
+```
+synthesize conditional_mux and write its netlist
+iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_fd_sc_hd.v <path_to_synthesized_netlist>/conditional_mux_mapped.v <path_to_original_file>/conditional_mux_tb.v -o conditional_mux_gls.out
+./conditional_mux_gls.out
+gtkwave conditional_mux_tb.vcd
+```
 
 ## Most common issues with RISC-V toolchain on Fedora
 

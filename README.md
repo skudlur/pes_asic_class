@@ -363,6 +363,20 @@ To Check the functionality, We refer to this waveform
 
 ![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
 
+### Day - 3: Combinational and Sequential optimizations
+
+## Logic Optimisation
+
+- *Combinational Logic Optimisation*
+	- Constant Propogation
+	- Boolean logic Optimisation
+- *Sequential Logic Optimisation*
+	- Sequential constant propogation
+	- State optimisation
+	- Retiming
+	- Sequential logic cloning
+
+
 ## Most common issues with RISC-V toolchain on Fedora
 
 1. pk not found error

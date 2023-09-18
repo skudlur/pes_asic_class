@@ -262,6 +262,119 @@ gtkwave mux_tb.vcd
 #### Netlist
 ![netlist_stats](https://github.com/skudlur/pes_asic_class/blob/main/assets/netlist.png "netlist")
 
+### Day - 2: Timing libs, Efficient flop coding styles
+
+## Liberate file explained 
+
+lib file name : [sky130_fd_sc_hd__tt_025C_1v80.lib](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/sky130_fd_sc_hd__tt_025C_1v80.lib) 
+- ```tt``` - Typical PMOS typical NMOS (Regular working speed)
+- ```025C``` - Temperature
+- ```1v80``` - supply voltage
+The above 3 parameters shortly known as PVT(Process Voltage Temperature) define how and at what conditions the fabricated silicon works
+- ```sky130``` - 130nm Technology node
+- ```fd``` - Foundry design
+- ```sc``` - standard cell
+- ```hd``` - high density - This specifies that this library supports using these standard cells at a high density resulting in samller chip area
+
+- The library file consists of all the details of the cell ie., leakage power, area, timing etc. for all input combinations
+- The library file consists of some same cell with different loads that facilitate the synthesis process.
+
+![and201](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/36923763-9654-4ad0-9230-8d038f1a7332)
+
+-From the figure, it is clear that we have different flavours of same cells whose values are different.
+
+### Hierarchical Synthesis V/s Flat Synthesis
+
+In Hierarchical synthesis, The hierarchy is maintained ie., submodules will be displayed as submodule block itself.They wont be represented by the logic present inside them but when flattened, the submodule data will not be visible. Only the top module will be visible.
+
+#### Steps for hierarchical synthesis, flat synthesis and submodule level synthesis
+
+```
+read_liberty -lib <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog multiple_modules.v
+synth -top multiple_modules  <!-- We can use synth -top <submodule_name> to synthesize the design at submodule level
+abc -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+write_verilog -noattr multiple_modules_mapped_hier.v
+show multiple_modules
+flatten
+write_verilog -noattr multiple_modules_mapped_flat.v
+show multiple_modules
+```
+### Hierarchical Synthesis output [Multiple_modules.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/multiple_modules.v)
+
+![multi_mod_hier](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/47305ca1-3f4a-448b-b648-2745b9662de7)
+
+### Flattened Synthesis netlist
+
+![multi_mod_flat](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e1409b5-7514-4cbe-b3a3-38fe7c48b4af)
+
+### Submodule Synthesis netlist (submodule2 in this case)
+
+![submod2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/38a1776b-6920-4f4e-85a5-7a9ff363e818)
+
+#### Note : 
+- While synthesizing OR gate, AND gate, most of the times the tool uses NAND Gates to obtain the functionality as in NAND gates,The NMOS are connected in series and provide better signal transfer.
+- Submodule level synthesis helps reduce synthesis time when in a massive design, the same submodule has been called many times and also we can synthesize all submodules and stitch them to obtain top level.But here the optimisation also takes place at submodule level ,not at top level.3
+
+### Flops
+
+Due to propogation delays of gates, The combinational block may output some glitches which might be negligible but when "n" number of combinational blocks are connected, theglich becomes large and no more remains a glitch but as a false state. So to avoid the addition effect of glitches we will have flops at the end of each combinational blocks as the flop stores the final value and the glitch is eliminated before passing it to next block.
+
+Steps to synthesize flops
+```
+read_liberty -lib <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog flop.v
+synth -top flop
+dfflibmap -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -liberty <PATH_TO_.lib_FILE>/sky130_fd_sc_hd__tt_025C_1v80.lib
+write_verilog -noattr flop_mapped.v
+show 
+```
+To view the waveform
+```
+iverilog flop.v flop_tb.v -o flop.out
+./flop.out
+gtkwave flop_tb.vcd
+```
+
+## D-flip-flop with an asynchronous reset [asyncres.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres.v) [asyncres_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres_tb.v)
+
+![asyncres_stats](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/cef13e93-fc85-47d6-bf81-b1e110d4412c)
+
+Since we see a D Flip FLop getting inferred, We use the above mentioned dfflibmap command to map the flops accurately
+View the output waveforms
+
+![asyncres_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/e3075c6c-714b-42a6-ad99-bde2a7ed3023)
+
+To Check the functionality, We refer to this waveform
+
+![asyncres_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/0788dc0a-95af-43c5-906d-a8961c6887e0)
+
+
+## D-flip-flop with an asynchronous set [asyncset.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset.v) [asyncset_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset_tb.v)
+
+![asyncset_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/f448f979-d3d7-4f6a-878c-681a7d4db8c0)
+
+![asyncset_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/04126806-59a3-4506-8877-c4901e45c592)
+
+## D-flip-flop with both synchronous and asynchronous reset [sync_async_res.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res.v) [sync_async_res_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res_tb.v)
+
+![sync_async_res_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d0368959-6e54-4cd6-a015-683c6e9158f0)
+
+![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
+
+## [mul2.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mul2.v) 
+
+![mul2_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d9ac5584-9c21-4308-ad06-d3c83b936871)
+
+When a number is multiplied by 2, it just means that the number is right shifted once. Therefore a bit "0" is appended at the end of the number to be multiplied by 2. Therefore optimisation has been done by appending a ground bit instead of inferring a multiplier.
+
+## [mul8.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mul8.v)
+
+![mul8_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/fd649cc2-3792-4078-8a4d-95ee9bede0f2)
+
+mul8 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore multiplier is not inferred here and only 3 bits are added.
+
 ## Most common issues with RISC-V toolchain on Fedora
 
 1. pk not found error

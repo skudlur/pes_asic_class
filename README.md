@@ -262,15 +262,19 @@ gtkwave mux_tb.vcd
 #### Netlist
 ![netlist_stats](https://github.com/skudlur/pes_asic_class/blob/main/assets/netlist.png "netlist")
 
-### Day - 2: Timing libs, Efficient flop coding styles
+#### Mapped file when used "-noattr" switch
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a9b593f1-de49-4beb-8221-20a50ede41e5)
 
-## Liberate file explained 
+#### Mapped file when the above switch not used
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/5e54c48b-c0e3-4707-9c51-4f70fb08e9b4)
 
-lib file name : [sky130_fd_sc_hd__tt_025C_1v80.lib](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/sky130_fd_sc_hd__tt_025C_1v80.lib) 
+## Day 2 - Timing libs, Efficient flop coding styles
+
+lib file name : ![sky130_fd_sc_hd__tt_025C_1v80.lib](https://github.com/skudlur/pes_asic_class/blob/main/rtl/sky130_fd_sc_hd__tt_025C_1v80.lib)
 - ```tt``` - Typical PMOS typical NMOS (Regular working speed)
 - ```025C``` - Temperature
 - ```1v80``` - supply voltage
-The above 3 parameters shortly known as PVT(Process Voltage Temperature) define how and at what conditions the fabricated silicon works
+The above 3 parameters shortly known as PVT(Process Voltage Temperat ure) define how and at what conditions the fabricated silicon works
 - ```sky130``` - 130nm Technology node
 - ```fd``` - Foundry design
 - ```sc``` - standard cell
@@ -279,7 +283,7 @@ The above 3 parameters shortly known as PVT(Process Voltage Temperature) define 
 - The library file consists of all the details of the cell ie., leakage power, area, timing etc. for all input combinations
 - The library file consists of some same cell with different loads that facilitate the synthesis process.
 
-![and201](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/36923763-9654-4ad0-9230-8d038f1a7332)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/f38e99b8-b38a-495e-a0bd-ee46d4b8934b)
 
 -From the figure, it is clear that we have different flavours of same cells whose values are different.
 
@@ -300,21 +304,21 @@ flatten
 write_verilog -noattr multiple_modules_mapped_flat.v
 show multiple_modules
 ```
-### Hierarchical Synthesis output [Multiple_modules.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/multiple_modules.v)
+### Hierarchical Synthesis output Multiple_modules.v
 
-![multi_mod_hier](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/47305ca1-3f4a-448b-b648-2745b9662de7)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/52da35f9-3b1a-49c2-8391-ece91bff544d)
 
 ### Flattened Synthesis netlist
 
-![multi_mod_flat](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/7e1409b5-7514-4cbe-b3a3-38fe7c48b4af)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a060ad50-559f-4f4c-ad89-01422fb94f56)
 
 ### Submodule Synthesis netlist (submodule2 in this case)
 
-![submod2](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/38a1776b-6920-4f4e-85a5-7a9ff363e818)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/2a7ee90e-e7b7-4e95-a6e8-5f3ea679e11d)
 
 #### Note : 
 - While synthesizing OR gate, AND gate, most of the times the tool uses NAND Gates to obtain the functionality as in NAND gates,The NMOS are connected in series and provide better signal transfer.
-- Submodule level synthesis helps reduce synthesis time when in a massive design, the same submodule has been called many times and also we can synthesize all submodules and stitch them to obtain top level.But here the optimisation also takes place at submodule level ,not at top level.3
+- Submodule level synthesis helps reduce synthesis time when in a massive design, the same submodule has been called many times and also we can synthesize all submodules and stitch them to obtain top level.But here the optimisation also takes place at submodule level, not at top level.
 
 ### Flops
 
@@ -337,46 +341,130 @@ iverilog flop.v flop_tb.v -o flop.out
 gtkwave flop_tb.vcd
 ```
 
-## D-flip-flop with an asynchronous reset [asyncres.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres.v) [asyncres_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncres_tb.v)
+## D-flip-flop with an asynchronous reset asyncres.v asyncres_tb.v
 
-![asyncres_stats](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/cef13e93-fc85-47d6-bf81-b1e110d4412c)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a6f095cc-4451-4bf4-8638-aaa7d1453450)
 
-Since we see a D Flip FLop getting inferred, We use the above mentioned dfflibmap command to map the flops accurately
+Since we see a D Flip Flop getting inferred, We use the above mentioned dfflibmap command to map the flops accurately
 View the output waveforms
 
-![asyncres_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/e3075c6c-714b-42a6-ad99-bde2a7ed3023)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/28894575-2fe9-4e33-9c9c-70db043f03bf)
 
-To Check the functionality, We refer to this waveform
+To check the functionality, We refer to this waveform
 
-![asyncres_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/0788dc0a-95af-43c5-906d-a8961c6887e0)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/0a241e07-c40a-4c4e-b136-f62d2cf6d502)
 
+## D-flip-flop with an asynchronous set asyncset.v asyncres_tb.v
 
-## D-flip-flop with an asynchronous set [asyncset.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset.v) [asyncset_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/asyncset_tb.v)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/3cd9dd22-65a5-4fa7-a4be-16104512a61d)
 
-![asyncset_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/f448f979-d3d7-4f6a-878c-681a7d4db8c0)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/c9b7d723-0974-4ffe-b3bb-69c049543ba7)
 
-![asyncset_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/04126806-59a3-4506-8877-c4901e45c592)
+## D-flip-flop with both synchronous and asynchronous reset sync_async_res.v sync_async_res_tb.v
 
-## D-flip-flop with both synchronous and asynchronous reset [sync_async_res.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res.v) [sync_async_res_tb.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/sync_async_res_tb.v)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/11aef5c8-4346-4531-a72c-f504bc38e324)
 
-![sync_async_res_netlist](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d0368959-6e54-4cd6-a015-683c6e9158f0)
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/5c0222ce-26d0-4b21-b7d9-7f52356f20f1)
 
-![sync_async_res_wvf](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/5ab8057d-43b6-4d00-9385-46c1ba6279f2)
+## [mul2.v](https://github.com/yagnavivek/PES_ASIC_CLASS/blob/main/RTL_Verilog/verilog_files/mul2.v) 
 
-### Day - 3: Combinational and Sequential optimizations
+![mul2_full](https://github.com/yagnavivek/PES_ASIC_CLASS/assets/93475824/d9ac5584-9c21-4308-ad06-d3c83b936871)
+
+When a number is multiplied by 2, it just means that the number is right shifted once. Therefore a bit "0" is appended at the end of the number to be multiplied by 2. Therefore optimisation has been done by appending a ground bit instead of inferring a multiplier.
+
+## mul8.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/2e739e26-bc85-4307-a011-87991b6ae22c)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/5caa0bc9-c503-442e-95a9-6da029838b94)
+
+mul8 is nothing but a(8+1) so append 3 zeroes at end for a and add a .Therefore multiplier is not inferred here and only 3 bits are added.
+
+## Day 3 - Combinational and sequential optimizations
 
 ## Logic Optimisation
 
-- *Combinational Logic Optimisation*
+- Combinational Logic Optimisation
 	- Constant Propogation
 	- Boolean logic Optimisation
-- *Sequential Logic Optimisation*
+- Sequential Logic Optimisation
 	- Sequential constant propogation
 	- State optimisation
 	- Retiming
 	- Sequential logic cloning
 
-### Day - 4: GLS, Synthesis solution mismatch
+#### To perform the combinational logic optimisation, use the command ```opt_clean -purge``` before linking to abc  and synthesize.
+
+## opt_check1.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/6e506377-fc0d-478d-845e-c4311260800a)
+
+## opt_check2.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/6c0b7f39-0589-4104-93e4-1a6c74279463)
+
+## opt_check3.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/7214ec30-9c7a-4860-97ec-32ff34eb710a)
+
+## opt_check4.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/8737cccf-735d-473b-8134-85dace99f490)
+
+
+## multiple_modules_opt.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/95e29a5a-5ed6-4272-9490-5d48e21d9ebe)
+
+Inorder to optimise a verilog files that has submodules, We have to first flatten it, then optimize ```opt_clean -purge``` and complete the synthesis process
+
+Here we can observe that instead of using ```and``` gate and ```or``` gates, its using ```AOI```
+
+#### sequential logic optimisation
+
+## dff_const1 dff_const1_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/20bb8d7e-4787-4166-b4cc-ddbf199289c3)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/254a1795-1da6-4bd9-abf8-75338ad66842)
+
+## dff_const2 dff_const2_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/fb2acb71-2261-4bd0-990c-ee3363bd76b0)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/d056bebc-a745-4acb-ae01-9992e1ba6630)
+
+## dff_const3 dff_const3_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/90d4e40b-5615-42d2-9a46-5d92132aaadc)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/527faf54-8120-481b-8127-8e780b526ac0)
+
+## dff_const4 dff_const4_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/0a3a0dd2-d167-4ce5-a7d1-55b6693dbd6d)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/7f844303-edca-40f7-880e-a5b7e27bf3a2)
+
+## dff_const5 dff_const5_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/2e527b60-f18b-4994-aa4f-1d2597e79899)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/0861a884-6af4-4eb6-b6a0-56eb9e8ae2b1)
+
+## counter_opt1.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a73ca3a1-b998-4256-9077-23a4baa17834)
+
+Usually a 3 bit counter requires 3 flops but since the output here is dependent on only the LSB and other 2 bits are unused. Therefore only one flop is being down and as we know that LSB toggles every clock cylce,its just using an inverter to invert the output at every clock cycle.
+
+## counter_opt2.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a3478c41-9663-4de4-a550-e26d6071de36)
+
+Since the logic is changed such that the output is dependent on all 3 bits, it has inferred 3 flip flops.
+
+## Day 4 - GLS, Synthesis solution mismatch
 
 ## Gate Level Simulation(GLS)
 
@@ -399,6 +487,34 @@ iverilog <Path_to_primitives.v>/primitives.v <path_to_sky130_fd_sc_hd.v>/sky130_
 ./conditional_mux_gls.out
 gtkwave conditional_mux_tb.vcd
 ```
+
+## presynthesis(above) and post-synthesis simulation(below) conditional_mux.v conditional_mux_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/76dd7ded-5adf-4d84-87e6-1f2bc36c8ace)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/240154e0-b4d9-4640-a8c9-a275dad6e0c7)
+
+Since the presynthesis and post-synthesis waveforms are same, it confirms that the synthesized netlist is functionally correct
+
+## presynthesis(above) and post-synthesis(below) bad_mux.v bad_mux_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/6c8b33eb-51b0-4f79-9370-09d064c9acc6)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/76a50841-6be5-4ee3-8ca9-e83608b57b2a)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/a6922a44-b265-4372-bb26-dbfa0693a705)
+
+since the sensitivity list had only select signal, the output changes only when select signal changes irrespective of input 1 and 0. The presynthesis waveform explains the same. But after synthesizing, the waveform can be explained such a way that output is depending on all the input changes. This case is called **Synthesis Simulation Mismatch**
+
+##  presynthesis(above) and post-synthesis(below) Blocking_error.v Blocking_error_tb.v
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/2c48f272-f8b1-4695-816d-9b306016b922)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/292bd90a-614d-4ff8-92d9-4d690df6617e)
+
+![image](https://github.com/skudlur/pes_asic_class/assets/38615795/5a6791a7-f06c-4b6d-bbd5-c54c1f4f5f0b)
+
+when we observe the code, d=x&c and x=a|b so d depends on x but x is evaluated after d.so d uses previous value of x to compute itself.Therefore we can say that if previous value is being used, then it's behaving like a flop and the same can be observed in waveform. But after synthesis, its behoviour is normal as-if value of x has been computed before giving to d. This state can be called as **Synthesis Simulation Mismatch**
 
 ## Most common issues with RISC-V toolchain on Fedora
 
